@@ -1,6 +1,5 @@
-/* extension.js
- *
- * This program is free software: you can redistribute it and/or modify
+/* 
+ *This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
@@ -16,9 +15,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-/* exported init */
-
-const GETTEXT_DOMAIN = 'my-indicator-extension';
+const GETTEXT_DOMAIN = 'spotlight-wallpaper-extension';
 
 const { GObject, St } = imports.gi;
 
@@ -31,30 +28,39 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
 const Indicator = GObject.registerClass(
-class Indicator extends PanelMenu.Button {
-    _init() {
-        super._init(0.0, _('My Shiny Indicator'));
+    class Indicator extends PanelMenu.Button {
+        _init() {
+            // Init Indicator
+            super._init(0.0, _('Spotlight Wallpaper'));
 
-        let box = new St.BoxLayout({ style_class: 'panel-status-menu-box' });
-        box.add_child(new St.Icon({
-            icon_name: 'face-smile-symbolic',
-            style_class: 'system-status-icon',
-        }));
-        box.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
-        this.add_child(box);
+            // Create box on panel with an icon and add it to the panel
+            let box = new St.BoxLayout({ style_class: 'panel-status-menu-box' });
+            box.add_child(new St.Icon({
+                icon_name: 'folder-pictures-symbolic',
+                style_class: 'system-status-icon',
+            }));
+            this.add_child(box);
 
-        let item = new PopupMenu.PopupMenuItem(_('Show Notification'));
-        item.connect('activate', () => {
-            Main.notify(_('Whatʼs up, folks?'));
-        });
-        this.menu.addMenuItem(item);
+            // Add a Popup Menu to the indicator
+            let info_item = new PopupMenu.PopupMenuItem(_('Show Wallpaper information'));
+            info_item.connect('activate', () => {
+                Main.notify(_('Wow, such empty...'));
+            });
+
+            let next_item = new PopupMenu.PopupMenuItem(_('Next Wallpaper'));
+            next_item.connect('activate', () => {
+                Main.notify(_('Not yet implemented...'));
+            });
+
+            this.menu.addMenuItem(info_item);
+            this.menu.addMenuItem(next_item);
+        }
     }
-});
+);
 
 class Extension {
     constructor(uuid) {
         this._uuid = uuid;
-
         ExtensionUtils.initTranslations(GETTEXT_DOMAIN);
     }
 
