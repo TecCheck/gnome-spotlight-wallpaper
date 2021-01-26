@@ -1,0 +1,8 @@
+{
+  "name": "Spotlight Wallpaper",
+  "description": "Spotlight Wallpaper",
+  "uuid": "spotlight-wallpaper@teccheck.github.io",
+  "shell-version": [
+    "3.38"
+  ]
+}
